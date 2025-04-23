@@ -17,7 +17,30 @@ export default function App() {
 
     reader.readAsText(file); // supports .txt files
   };
+async function handleGenerate() {
+  if (!script) {
+    alert("Please enter your script!");
+    return;
+  }
 
+  try {
+    const res = await fetch("/api/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ script })
+    });
+
+    const data = await res.json();
+    console.log("Image prompt received:", data);
+    alert("Scene prompt: " + data.prompt);
+  } catch (err) {
+    console.error(err);
+    alert("Something went wrong.");
+  }
+}
+  
   return (
     <div style={{ padding: "40px", fontFamily: "Arial" }}>
       <h1>🎬 Script to Scene Generator</h1>
