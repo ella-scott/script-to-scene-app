@@ -39,7 +39,7 @@ export default function App() {
       <label>
         📂 Or upload your script file (.txt):
         <br />
-        <input type="file" accept=".txt" onChange={handleScriptFileUpload} />
+        <input type="file" accept=".txt,.doc,.docx" onChange={handleScriptFileUpload} />
       </label>
 
       <br /><br />
