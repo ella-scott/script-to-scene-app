@@ -6,11 +6,40 @@ export default async function handler(req, res) {
   const { script } = req.body;
 
   if (!script) {
-    return res.status(400).json({ error: "Script is missing from request." });
+    return res.status(400).json({ error: "Missing script text" });
   }
 
-  // Just to confirm it's working — log a fake response
-  const fakePrompt = `Generate a cinematic image of the scene: "${script.split('\n')[0]}"`;
+  // Turn the script into a prompt (for now, send the first scene)
+  const firstScene = script.split(/INT\.|EXT\./).filter(s => s.trim())[0];
+  const prompt = `Generate a cinematic image of the scene: "${firstScene.trim()}"`;
 
-  return res.status(200).json({ prompt: fakePrompt });
+  try {
+    const response = await fetch("https://api.openai.com/v1/images/generations", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "dall-e-3",
+        prompt,
+        n: 1,
+        size: "1024x1024",
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!data.data || !data.data[0]) {
+      return res.status(500).json({ error: "Image generation failed", detail: data });
+    }
+
+    return res.status(200).json({
+      prompt,
+      imageUrl: data.data[0].url,
+    });
+  } catch (error) {
+    console.error("Error generating image:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
 }
