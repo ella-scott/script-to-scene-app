@@ -26,18 +26,33 @@ async function handleGenerate() {
   }
 
   try {
-    const res = await fetch("/api/generate", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({ script })
-});
+  const res = await fetch("/api/generate", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ script }),
+  });
 
-if (!res.ok) {
-  const errorText = await res.text();  // Read the error as plain text
-  throw new Error(`Server error: ${errorText}`);
+  if (!res.ok) {
+    // Prevent trying to parse error as JSON
+    const errorText = await res.text();
+    console.error("Server error response:", errorText);
+    alert("Something went wrong. Server returned: " + res.status);
+    return;
+  }
+
+  const data = await res.json();
+  setImageURL(data.imageURL); // Show the test/final image
+  console.log("Script value:", script);
+  console.log("Image prompt received:", data);
+  console.log("Scene prompt:", data.prompt);
+  alert("Scene prompt: " + data.prompt);
+} catch (err) {
+  console.error("Client-side fetch error:", err);
+  alert("Something went wrong (client side).");
 }
+
 
 const data = await res.json(); // ✅ Only run this if the server responded correctly
 
