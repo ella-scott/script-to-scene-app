@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 export default function App() {
+  const [imageUrl, setImageUrl] = useState(null);
   const [script, setScript] = useState("");
   const [style, setStyle] = useState("cinematic");
   const [photos, setPhotos] = useState([]);
@@ -33,8 +34,10 @@ async function handleGenerate() {
     });
 
     const data = await res.json();
+    setImageURL(data.imageURL); // This saves the image in memory
     console.log("Script value:", script);
     console.log("Image prompt received:", data);
+    console.log("Scene prompt: " + data.prompt);
     alert("Scene prompt: " + data.prompt);
   } catch (err) {
     console.error(err);
@@ -95,6 +98,12 @@ async function handleGenerate() {
       <button onClick={handleGenerate}>
   🎬 Generate Scenes
 </button>
+{imageURL && (
+  <div>
+    <h3>🎬 Scene Illustration</h3>
+    <img src={imageURL} alt="Scene illustration" style={{ maxWidth: "100%", marginTop: "20px" }} />
+  </div>
+)}
 
     </div>
   );
