@@ -4,18 +4,12 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { script } = req.body;
-
-    if (!script || typeof script !== "string") {
-      return res.status(400).json({ error: "Invalid script input" });
-    }
-
-    // Simulated response (replace this with OpenAI logic later)
-    const prompt = `Generate a cinematic image of the scene: "${script}"`;
-
-    return res.status(200).json({ prompt });
-  } catch (error) {
-    console.error("Backend error:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
-  }
+  // ✅ Simulated test: Just return fake data to make sure the route works
+  return res.status(200).json({
+    prompt: "This is a test prompt response.",
+    imageURL: "https://via.placeholder.com/800x400.png?text=Test+Image"
+  });
+} catch (error) {
+  console.error("Backend error:", error);
+  return res.status(500).json({ error: "Internal Server Error" });
 }
