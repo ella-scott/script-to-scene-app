@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 export default function App() {
-  const [imageUrl, setImageUrl] = useState(null);
   const [script, setScript] = useState("");
   const [style, setStyle] = useState("cinematic");
   const [photos, setPhotos] = useState([]);
