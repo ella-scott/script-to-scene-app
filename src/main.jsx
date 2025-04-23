@@ -33,6 +33,7 @@ async function handleGenerate() {
     });
 
     const data = await res.json();
+    console.log("Script value:", script);
     console.log("Image prompt received:", data);
     alert("Scene prompt: " + data.prompt);
   } catch (err) {
