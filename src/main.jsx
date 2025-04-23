@@ -36,7 +36,7 @@ const App = () => {
       /><br /><br />
 
       <button
-        onClick={() => alert(\"This will generate your images (coming next)\")}
+	onClick={() => alert("This will generate your images (coming next)")}
       >
         🚀 Generate Scenes
       </button>
