@@ -91,9 +91,10 @@ async function handleGenerate() {
 
       <br /><br />
 
-      <button onClick={() => alert("This will generate your images (coming next)")}>
-        🚀 Generate Scenes
-      </button>
+      <button onClick={handleGenerate}>
+  🎬 Generate Scenes
+</button>
+
     </div>
   );
 }
