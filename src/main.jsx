@@ -27,14 +27,20 @@ async function handleGenerate() {
 
   try {
     const res = await fetch("/api/generate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ script })
-    });
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({ script })
+});
 
-    const data = await res.json();
+if (!res.ok) {
+  const errorText = await res.text();  // Read the error as plain text
+  throw new Error(`Server error: ${errorText}`);
+}
+
+const data = await res.json(); // ✅ Only run this if the server responded correctly
+
     setImageURL(data.imageURL); // This saves the image in memory
     console.log("Script value:", script);
     console.log("Image prompt received:", data);
