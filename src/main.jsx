@@ -5,6 +5,7 @@ export default function App() {
   const [script, setScript] = useState("");
   const [style, setStyle] = useState("cinematic");
   const [photos, setPhotos] = useState([]);
+  
 
   const handleScriptFileUpload = (event) => {
     const file = event.target.files[0];
